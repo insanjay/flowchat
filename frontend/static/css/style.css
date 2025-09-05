@@ -316,3 +316,35 @@ body {
     margin-bottom: 8px;
   }
 }
+
+/* Fix chat container height - no more full screen scroll */
+.message-container {
+  max-height: calc(100vh - 120px); /* Adjust based on your header+footer height */
+  overflow-y: auto;
+}
+
+/* Make buttons bubble-sized instead of full-width */
+@media (max-width: 768px) {
+  .input-container {
+    flex-direction: row; /* Keep buttons horizontal */
+    justify-content: space-between;
+  }
+  
+  .input-container button,
+  .search-box button,
+  #organizerBtn {
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 25px;
+    width: auto;
+    min-width: 60px;
+    height: 40px;
+  }
+}
+
+/* Make message bubbles fit content width */
+.message {
+  display: inline-block !important;
+  max-width: 70%;
+  width: auto;
+}
