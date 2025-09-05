@@ -1,0 +1,272 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    height: 100vh;
+}
+
+.chat-container {
+    max-width: 800px;
+    margin: 0 auto;
+    height: 100vh;
+    background: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-header {
+    background: #4267B2;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search-box {
+    display: flex;
+    gap: 10px;
+}
+
+.search-box input {
+    padding: 8px;
+    border: none;
+    border-radius: 20px;
+    width: 300px;
+}
+
+.search-box button {
+    padding: 8px 15px;
+    background: #42a5f5;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.message-container {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background: #f8f9fa;
+}
+
+.message {
+    display: block;
+    margin: 10px 0;
+    padding: 10px 15px;
+    border-radius: 18px;
+    max-width: 70%;
+    width: fit-content;
+    word-wrap: break-word;
+    cursor: pointer;
+    clear: both;
+}
+
+.message.sent {
+    background: #0084ff;
+    color: white;
+    margin-left: auto;
+    text-align: right;
+    display: block;
+}
+
+.message.received {
+    background: #e4e6ea;
+    color: black;
+    display: block;
+}
+
+.message-time {
+    font-size: 10px;
+    opacity: 0.6;
+    margin-top: 3px;
+    text-align: center;
+}
+
+.message.sent .message-time {
+    color: rgba(255,255,255,0.7);
+}
+
+.message.received .message-time {
+    color: rgba(0,0,0,0.5);
+}
+
+.input-container {
+    display: flex;
+    padding: 15px;
+    background: white;
+    border-top: 1px solid #ddd;
+    gap: 10px;
+}
+
+.input-container input[type="text"] {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    outline: none;
+}
+
+.input-container button {
+    padding: 12px 20px;
+    background: #4267B2;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.search-results {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.controls {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+#organizerBtn {
+    padding: 8px 15px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    padding: 20px;
+}
+
+.category-card {
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.category-card:hover {
+    border-color: #4267B2;
+    background: #e3f2fd;
+}
+
+.category-card h3 {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+}
+
+.category-card span {
+    background: #4267B2;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 14px;
+}
+
+#searchFilter {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+}
+
+.category-header {
+    background: #e3f2fd;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.category-header button {
+    background: #4267B2;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.message a {
+    color: #0084ff;
+    text-decoration: none;
+    padding: 5px 10px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 10px;
+    display: inline-block;
+}
+
+.file-message {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.download-btn {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.text-with-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.message-text {
+    word-wrap: break-word;
+}
+
+.link-buttons {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.link-btn {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+/* Essential hover effects for functionality */
+.download-btn:hover {
+    background: #218838;
+}
+
+.link-btn:hover {
+    background: #0056b3;
+}
+
+.search-box button:hover {
+    background: #1976d2;
+}
