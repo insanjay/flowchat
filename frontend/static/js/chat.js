@@ -104,7 +104,7 @@ async function sendMessage() {
     };
 
     try {
-        const response = await fetch('${API_BASE}/api/messages/send', {
+        const response = await fetch(`${API_BASE}/api/messages/send`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -248,7 +248,7 @@ async function sendMessage() {
     };
 
     try {
-        const response = await fetch('${API_BASE}/api/messages/send', {
+        const response = await fetch(`${API_BASE}/api/messages/send`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -287,7 +287,7 @@ document.addEventListener('DOMContentLoaded', function() {
         formData.append('sender_id', 1);
 
         try {
-            const response = await fetch('${API_BASE}/api/messages/send-file', {
+            const response = await fetch(`${API_BASE}/api/messages/send-file`, {
                 method: 'POST',
                 body: formData
             });
