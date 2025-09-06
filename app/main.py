@@ -25,8 +25,10 @@ app = FastAPI(title="Advanced Messaging App", version="0.1.0", lifespan=lifespan
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["https://insanjay.github.io"],
-    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
+    expose_headers=["*"],
+    allow_credentials=True,
 )
 
 # Mount static files
