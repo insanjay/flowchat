@@ -1,4 +1,4 @@
-from fastapi import FastAPI, WebSocket, Request
+from fastapi import FastAPI, WebSocket
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from app.api.routes import messages, search
@@ -6,8 +6,21 @@ from app.database.connection import create_tables
 from fastapi.responses import FileResponse
 import os
 from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
 
-app = FastAPI(title="Advanced Messaging App", version="0.1.0")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup code - runs before app starts serving requests
+    print("Starting up: initializing database, etc.")
+    create_tables()  # Initialize your database tables
+    
+    yield  # App runs here
+    
+    # Shutdown code - runs after app stops serving requests
+    print("Shutting down: cleaning up resources")
+    # Close database connections, cleanup, etc.
+
+app = FastAPI(title="Advanced Messaging App", version="0.1.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -15,8 +28,6 @@ app.add_middleware(
     allow_methods=["GET", "POST", "PUT", "DELETE"],
     allow_headers=["*"],
 )
-
-
 
 # Mount static files
 app.mount("/static", StaticFiles(directory="frontend/static"), name="static")
@@ -26,13 +37,9 @@ templates = Jinja2Templates(directory="frontend/templates")
 app.include_router(messages.router, prefix="/api/messages", tags=["messages"])
 app.include_router(search.router, prefix="/api/search", tags=["search"])
 
-@app.lifespan("startup")  # FIX: Proper database initialization
-async def startup_event():
-    create_tables()
-
 @app.get("/")
 async def root():
-    return {"message": "Messaging App API"}
+    return {"message": "Backend is running"}
 
 @app.get("/chat")
 async def get_chat_interface():
@@ -50,12 +57,3 @@ async def download_file(filename: str):
     if os.path.exists(file_path):
         return FileResponse(file_path, filename=filename)
     return {"error": "File not found"}
-
-
-@app.get("/")
-async def root():
-    return {"message": "Backend is running"}
-
-@app.get("/health")
-async def health():
-    return {"status": "healthy"}
