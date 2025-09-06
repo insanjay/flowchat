@@ -161,6 +161,7 @@ if (messageObj && messageObj.message_type === 'file') {
     `;
 }
 
+
     // Text with clickable links
     else if (messageObj && messageObj.message_type === 'text') {
         const urlRegex = /(https?:\/\/[^\s]+)/g;
@@ -180,6 +181,11 @@ if (messageObj && messageObj.message_type === 'file') {
             `;
         }
     }
+
+
+function downloadFile(filename) {
+    window.open(`${API_BASE}/files/${filename}`, '_blank');
+}
 
     // FIX: Correct timestamp behavior - hidden by default, click to show
     messageDiv.innerHTML = `
