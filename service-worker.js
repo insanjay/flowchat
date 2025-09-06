@@ -3,8 +3,8 @@ const CACHE_NAME = 'flowchat-v1';
 const urlsToCache = [
   '/flowchat/',
   '/flowchat/index.html',
-  '/flowchat/static/css/style.css',
-  '/flowchat/static/js/chat.js',
+  '/flowchat/frontend/static/css/style.css',
+  '/flowchat/frontend/static/js/chat.js',
   '/flowchat/manifest.json'
 ];
 
