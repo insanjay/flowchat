@@ -348,3 +348,18 @@ body {
   max-width: 70%;
   width: auto;
 }
+
+#messageContainer {
+  display: flex;
+  flex-direction: column; /* Stack messages vertically */
+  gap: 10px; /* Space between messages */
+}
+
+.message {
+  display: inline-block;
+  max-width: 70%;
+  margin: 5px 0;
+  padding: 10px 15px;
+  border-radius: 15px;
+  word-wrap: break-word;
+}
