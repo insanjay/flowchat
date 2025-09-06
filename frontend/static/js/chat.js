@@ -150,16 +150,17 @@ function displayMessage(content, type, messageObj = null) {
     let messageContent = content;
 
     // File message with download button
-    if (messageObj && messageObj.message_type === 'file') {
-        messageContent = `
-            <div class="file-message">
-                <span>📎 ${messageObj.content}</span>
-                <button class="download-btn" onclick="window.open('/files/${messageObj.content}', '_blank')">
-                    💾 Download
-                </button>
-            </div>
-        `;
-    }
+if (messageObj && messageObj.message_type === 'file') {
+    messageContent = `
+        <div class="file-message">
+            <span>📎 ${messageObj.content}</span>
+            <button class="download-btn" onclick="window.open(\`${API_BASE}/files/${messageObj.content}\`, '_blank')">
+                💾 Download
+            </button>
+        </div>
+    `;
+}
+
     // Text with clickable links
     else if (messageObj && messageObj.message_type === 'text') {
         const urlRegex = /(https?:\/\/[^\s]+)/g;
