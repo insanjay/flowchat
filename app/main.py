@@ -9,6 +9,14 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="Advanced Messaging App", version="0.1.0")
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://insanjay.github.io"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 # Mount static files
 app.mount("/static", StaticFiles(directory="frontend/static"), name="static")
 templates = Jinja2Templates(directory="frontend/templates")
@@ -17,7 +25,7 @@ templates = Jinja2Templates(directory="frontend/templates")
 app.include_router(messages.router, prefix="/api/messages", tags=["messages"])
 app.include_router(search.router, prefix="/api/search", tags=["search"])
 
-@app.on_event("startup")  # FIX: Proper database initialization
+@app.lifespan("startup")  # FIX: Proper database initialization
 async def startup_event():
     create_tables()
 
@@ -41,12 +49,3 @@ async def download_file(filename: str):
     if os.path.exists(file_path):
         return FileResponse(file_path, filename=filename)
     return {"error": "File not found"}
-
-# Add these imports at the top
-# Add this after app = FastAPI()
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["https://insanjay.github.io"],
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
