@@ -5,6 +5,7 @@ from app.api.routes import messages, search
 from app.database.connection import create_tables
 from fastapi.responses import FileResponse
 import os
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="Advanced Messaging App", version="0.1.0")
 
@@ -40,3 +41,12 @@ async def download_file(filename: str):
     if os.path.exists(file_path):
         return FileResponse(file_path, filename=filename)
     return {"error": "File not found"}
+
+# Add these imports at the top
+# Add this after app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://insanjay.github.io"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)

@@ -1,3 +1,4 @@
+const API_BASE = "https://flowchat-production.up.railway.app";
 let currentUserId = 1;
 let currentChatId = 1;
 let messages = [];
@@ -103,7 +104,7 @@ async function sendMessage() {
     };
 
     try {
-        const response = await fetch('/api/messages/send', {
+        const response = await fetch('${API_BASE}/api/messages/send', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -210,7 +211,7 @@ function toggleTimestamp(messageId) {
 
 async function loadMessages(scrollToBottom = false) {
     try {
-        const response = await fetch(`/api/messages/chat/${currentChatId}`);
+        const response = await fetch(`${API_BASE}/api/messages/chat/${currentChatId}`);
         const data = await response.json();
         const container = document.getElementById('messageContainer');
         container.innerHTML = '';
@@ -247,7 +248,7 @@ async function sendMessage() {
     };
 
     try {
-        const response = await fetch('/api/messages/send', {
+        const response = await fetch('${API_BASE}/api/messages/send', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -286,7 +287,7 @@ document.addEventListener('DOMContentLoaded', function() {
         formData.append('sender_id', 1);
 
         try {
-            const response = await fetch('/api/messages/send-file', {
+            const response = await fetch('${API_BASE}/api/messages/send-file', {
                 method: 'POST',
                 body: formData
             });
