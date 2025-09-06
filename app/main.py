@@ -50,3 +50,12 @@ async def download_file(filename: str):
     if os.path.exists(file_path):
         return FileResponse(file_path, filename=filename)
     return {"error": "File not found"}
+
+
+@app.get("/")
+async def root():
+    return {"message": "Backend is running"}
+
+@app.get("/health")
+async def health():
+    return {"status": "healthy"}
