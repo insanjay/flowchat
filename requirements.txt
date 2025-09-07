@@ -10,3 +10,36 @@ fastapi
 uvicorn[standard]
 sqlalchemy
 python-multipart
+# FastAPI Core
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+
+# Database & ORM
+sqlalchemy==2.0.23
+alembic==1.13.1
+
+# Authentication & Security
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.6
+
+# Google OAuth
+google-auth==2.23.4
+google-auth-oauthlib==1.1.0
+google-auth-httplib2==0.1.1
+
+# Data Validation
+pydantic==2.5.0
+pydantic[email]==2.5.0
+
+# Environment Variables
+python-dotenv==1.0.0
+
+# CORS Support
+fastapi-cors==0.0.6
+
+# Optional: For development
+pytest==7.4.3
+pytest-asyncio==0.21.1
+python-jose[cryptography]==3.3.0

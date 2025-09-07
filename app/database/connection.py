@@ -1,23 +1,53 @@
-from sqlalchemy import create_engine, Column, Integer, String, DateTime, Text
-from sqlalchemy.orm import declarative_base, sessionmaker  # FIX: Updated import
-from datetime import datetime
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker, Session
+from typing import Generator
+import os
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./messages.db"
-engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
+# Database URL - SQLite file will be created in the root directory
+SQLALCHEMY_DATABASE_URL = "sqlite:///./messaging_app.db"
 
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+# Create SQLAlchemy engine
+# check_same_thread=False is needed for SQLite to work with FastAPI
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL,
+    connect_args={"check_same_thread": False},
+    echo=False  # Set to True for SQL query logging during development
+)
+
+# Create SessionLocal class - each instance will be a database session
+SessionLocal = sessionmaker(
+    autocommit=False,
+    autoflush=False,
+    bind=engine
+)
+
+# Create Base class for our database models
 Base = declarative_base()
 
-class MessageDB(Base):
-    __tablename__ = "messages"
-    id = Column(Integer, primary_key=True, index=True)
-    content = Column(Text)
-    message_type = Column(String, default="text")
-    file_url = Column(String, nullable=True)
-    file_type = Column(String, nullable=True)
-    chat_id = Column(Integer)
-    sender_id = Column(Integer)
-    created_at = Column(DateTime, default=datetime.utcnow)
+def get_db() -> Generator[Session, None, None]:
+    """
+    Dependency function that provides database session to FastAPI endpoints
+    Automatically handles session cleanup
+    """
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 def create_tables():
+    """
+    Create all database tables
+    Call this function when starting the app
+    """
+    from app.database.schemas import Base
     Base.metadata.create_all(bind=engine)
+
+def drop_tables():
+    """
+    Drop all database tables
+    Use with caution - only for development/testing
+    """
+    from app.database.schemas import Base
+    Base.metadata.drop_all(bind=engine)

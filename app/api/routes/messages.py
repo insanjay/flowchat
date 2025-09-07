@@ -1,7 +1,7 @@
 from fastapi import UploadFile, File, Form
 from fastapi import APIRouter, Depends
 from app.models.message import MessageCreate
-from app.database.connection import SessionLocal, MessageDB
+from app.database.connection import SessionLocal
 from sqlalchemy.orm import Session
 
 router = APIRouter()

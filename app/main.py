@@ -1,3 +1,4 @@
+from app.api.routes.users import router as users_router
 from fastapi import FastAPI, WebSocket
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -38,6 +39,7 @@ templates = Jinja2Templates(directory="frontend/templates")
 # Include routers
 app.include_router(messages.router, prefix="/api/messages", tags=["messages"])
 app.include_router(search.router, prefix="/api/search", tags=["search"])
+app.include_router(users_router)  # Add this line after your existing routers
 
 @app.get("/")
 async def root():
