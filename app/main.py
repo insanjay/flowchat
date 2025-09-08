@@ -16,7 +16,7 @@ async def lifespan(app: FastAPI):
     create_tables()  # Initialize your database tables
     
     yield  # App runs here
-    
+    templates = Jinja2Templates(directory="./frontend/templates")
     # Shutdown code - runs after app stops serving requests
     print("Shutting down: cleaning up resources")
     # Close database connections, cleanup, etc.
@@ -34,7 +34,7 @@ app.add_middleware(
 
 # Mount static files
 app.mount("/static", StaticFiles(directory="frontend/static"), name="static")
-templates = Jinja2Templates(directory="frontend/templates")
+templates = Jinja2Templates(directory="messaging-app")
 
 # Include routers
 app.include_router(messages.router, prefix="/api/messages", tags=["messages"])
