@@ -112,8 +112,6 @@ async def search_users(search_data: UserSearch, db: Session = Depends(get_db)):
         total=len(user_responses)
     )
 
-from app.utils.google_auth import verify_google_token
-
 @router.post("/google-login", response_model=LoginResponse)
 async def google_login(login_data: GoogleLoginData, db: Session = Depends(get_db)):
     """Handle Google OAuth login with real token verification"""
@@ -124,10 +122,17 @@ async def google_login(login_data: GoogleLoginData, db: Session = Depends(get_db
     if not verification_result["status"]:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Invalid Google token"
+            detail=verification_result.get("error", "Invalid Google token")
         )
     
     user_info = verification_result["user_info"]
+    
+    # Validate that email exists
+    if not user_info or not user_info.get("email"):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Google token doesn't contain email. Please request email scope in OAuth flow."
+        )
     
     # Check if user exists
     user = crud.get_user_by_google_id(db, user_info["google_id"])
