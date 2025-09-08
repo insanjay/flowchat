@@ -6,31 +6,37 @@
     <title>Advanced Messaging App</title>
     <link rel="stylesheet" href="frontend\static\css\style.css">
     <!-- PWA Manifest -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#4267B2">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4267B2">
 
-<!-- PWA Service Worker Registration -->
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('service-worker.js')
-      .then(registration => {
-        console.log('SW registered: ', registration);
-      })
-      .catch(registrationError => {
-        console.log('SW registration failed: ', registrationError);
+    <!-- PWA Service Worker Registration -->
+    <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(registration => {
+            console.log('SW registered: ', registration);
+          })
+          .catch(registrationError => {
+            console.log('SW registration failed: ', registrationError);
+          });
       });
-  });
-}
-</script>
-<link rel="icon" href="/flowchat/favicon.ico" type="image/x-icon">
+    }
+    </script>
+    <link rel="icon" href="/flowchat/favicon.ico" type="image/x-icon">
 </head>
 <body>
     <link rel="icon" href="data:,">
-    <div class="chat-container">  <!-- FIX: Add missing container -->
+    <div class="chat-container">
         <div class="chat-header">
             <h2>Advanced Messaging App</h2>
             <div class="controls">
+                <!-- ADD: User info and logout -->
+                <div class="user-info" style="display: flex; align-items: center; gap: 10px; margin-right: 10px;">
+                    <img id="user-avatar" style="width: 32px; height: 32px; border-radius: 50%;" src="" alt="User">
+                    <span id="user-name"></span>
+                    <button onclick="logout()" style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">Logout</button>
+                </div>
                 <button id="organizerBtn" onclick="toggleOrganizer()">📦 Organize</button>
                 <div class="search-box">
                     <select id="searchFilter">
@@ -80,6 +86,29 @@ if ('serviceWorker' in navigator) {
         </div>
     </div>
 
+    <!-- ADD: Authentication scripts -->
+    <script src="frontend/static/js/auth.js"></script>
     <script src="frontend/static/js/chat.js"></script>
+    
+    <!-- ADD: Authentication check -->
+    <script>
+        // Check authentication on page load
+        window.addEventListener('load', function() {
+            if (!auth.isAuthenticated()) {
+                window.location.href = 'frontend/templates/auth.html';
+                return;
+            }
+
+            // Display current user info
+            const user = auth.getCurrentUser();
+            document.getElementById('user-name').textContent = user.username;
+            document.getElementById('user-avatar').src = `https://ui-avatars.com/api/?name=${user.username}&background=667eea&color=fff`;
+        });
+
+        function logout() {
+            auth.logout();
+            window.location.href = 'frontend/templates/auth.html';
+        }
+    </script>
 </body>
 </html>
