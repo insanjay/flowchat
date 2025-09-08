@@ -34,7 +34,7 @@ app.add_middleware(
 
 # Mount static files
 app.mount("/static", StaticFiles(directory="frontend/static"), name="static")
-templates = Jinja2Templates(directory="messaging-app")
+templates = Jinja2Templates(directory="./")
 
 # Include routers
 app.include_router(messages.router, prefix="/api/messages", tags=["messages"])
