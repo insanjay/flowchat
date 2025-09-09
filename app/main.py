@@ -8,6 +8,8 @@ from fastapi.responses import FileResponse
 import os
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
+from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, WebSocket, Request
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -33,7 +35,7 @@ app.add_middleware(
 )
 
 # Mount static files
-app.mount("/static", StaticFiles(directory="frontend/static"), name="static")
+app.mount("/frontend/static", StaticFiles(directory="frontend/static"), name="static")
 templates = Jinja2Templates(directory="./")
 
 # Include routers
@@ -61,3 +63,9 @@ async def download_file(filename: str):
     if os.path.exists(file_path):
         return FileResponse(file_path, filename=filename)
     return {"error": "File not found"}
+
+templates = Jinja2Templates(directory="frontend/templates")
+
+@app.get("/auth", response_class=HTMLResponse)
+async def auth_page(request: Request):
+    return templates.TemplateResponse("auth.html", {"request": request})

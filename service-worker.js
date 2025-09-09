@@ -1,11 +1,11 @@
 // Basic service worker for caching essential assets
 const CACHE_NAME = 'flowchat-v1';
 const urlsToCache = [
-  '/flowchat/',
-  '/flowchat/index.html',
-  '/flowchat/frontend/static/css/style.css',
-  '/flowchat/frontend/static/js/chat.js',
-  '/flowchat/manifest.json'
+  '/',
+  '/chat',
+  '/frontend/static/css/style.css',
+  '/frontend/static/js/chat.js',
+  '/manifest.json'
 ];
 
 self.addEventListener('install', event => {

@@ -23,7 +23,7 @@
       });
     }
     </script>
-    <link rel="icon" href="/flowchat/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
     <link rel="icon" href="data:,">
@@ -87,28 +87,21 @@
     </div>
 
     <!-- ADD: Authentication scripts -->
-    <script src="frontend/templates/auth.html"></script>
-    <script src="frontend\static\js\chat.js"></script>
+    <script src="frontend/templates/auth.js"></script>
+    <script src="frontend/static/js/chat.js"></script>
     
-    <!-- ADD: Authentication check -->
-    <script>
-        // Check authentication on page load
-        window.addEventListener('load', function() {
-            if (!auth.isAuthenticated()) {
-                window.location.href = 'frontend/templates/auth.html';
-                return;
-            }
+    <!-- Load the actual JavaScript file that contains auth functions -->
+<script src="/frontend/static/js/auth.js"></script>
+<script src="/frontend/static/js/chat.js"></script>
 
-            // Display current user info
-            const user = auth.getCurrentUser();
-            document.getElementById('user-name').textContent = user.username;
-            document.getElementById('user-avatar').src = `https://ui-avatars.com/api/?name=${user.username}&background=667eea&color=fff`;
-        });
-
-        function logout() {
-            auth.logout();
-            window.location.href = 'frontend/templates/auth.html';
+<script>
+    window.addEventListener('load', function() {
+        if (!auth.isAuthenticated()) {
+            window.location.href = '/auth'; // Use a proper route, not direct HTML
+            return;
         }
-    </script>
+    });
+</script>
+
 </body>
 </html>
