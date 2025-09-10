@@ -1,5 +1,4 @@
 from app.api.routes.users import router as users_router
-from fastapi import FastAPI, WebSocket
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from app.api.routes import messages, search
@@ -18,7 +17,7 @@ async def lifespan(app: FastAPI):
     create_tables()  # Initialize your database tables
     
     yield  # App runs here
-    templates = Jinja2Templates(directory="./frontend/templates")
+    templates = Jinja2Templates(directory="frontend/templates")
     # Shutdown code - runs after app stops serving requests
     print("Shutting down: cleaning up resources")
     # Close database connections, cleanup, etc.
@@ -36,7 +35,6 @@ app.add_middleware(
 
 # Mount static files
 app.mount("/frontend/static", StaticFiles(directory="frontend/static"), name="static")
-templates = Jinja2Templates(directory="./")
 
 # Include routers
 app.include_router(messages.router, prefix="/api/messages", tags=["messages"])
@@ -49,7 +47,7 @@ async def root():
 
 @app.get("/chat")
 async def get_chat_interface():
-    return templates.TemplateResponse("index.html", {"request": {}})
+    return FileResponse("index.html", media_type="text/html")
 
 # WebSocket for real-time messaging
 @app.websocket("/ws")
@@ -63,6 +61,8 @@ async def download_file(filename: str):
     if os.path.exists(file_path):
         return FileResponse(file_path, filename=filename)
     return {"error": "File not found"}
+
+
 
 templates = Jinja2Templates(directory="frontend/templates")
 
