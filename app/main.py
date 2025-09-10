@@ -9,6 +9,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from fastapi.responses import HTMLResponse
 from fastapi import FastAPI, WebSocket, Request
+from fastapi import APIRouter
+
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -17,29 +20,40 @@ async def lifespan(app: FastAPI):
     create_tables()  # Initialize your database tables
     
     yield  # App runs here
-    templates = Jinja2Templates(directory="frontend/templates")
     # Shutdown code - runs after app stops serving requests
     print("Shutting down: cleaning up resources")
     # Close database connections, cleanup, etc.
 
 app = FastAPI(title="Advanced Messaging App", version="0.1.0", lifespan=lifespan)
+router = APIRouter()
+
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://insanjay.github.io"],
+    allow_origins=[
+        "https://insanjay.github.io",      # For production
+        "http://127.0.0.1:8000",          # For local development  
+        "http://localhost:8000"           # Alternative localhost
+    ],
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
     expose_headers=["*"],
     allow_credentials=True,
 )
-
 # Mount static files
 app.mount("/frontend/static", StaticFiles(directory="frontend/static"), name="static")
 
 # Include routers
-app.include_router(messages.router, prefix="/api/messages", tags=["messages"])
-app.include_router(search.router, prefix="/api/search", tags=["search"])
-app.include_router(users_router)  # Add this line after your existing routers
+app.include_router(messages.router, prefix="/api/routes/messages", tags=["messages"])
+app.include_router(search.router, prefix="/api/routes/search", tags=["search"])
+app.include_router(users_router, prefix="/api/routes/users", tags=["users"])
+
+
+@router.post("/google-login")
+async def google_login(token: dict):
+    # Handle Google OAuth token verification
+    return {"message": "Google login successful"}
+
 
 @app.get("/")
 async def root():
