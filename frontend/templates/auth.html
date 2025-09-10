@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FlowChat - Sign In</title>
+    <script src="/frontend/static/js/config.js"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         body {
@@ -110,7 +111,7 @@
 
         async function loginWithBackend(googleToken) {
             try {
-                const response = await fetch(`${BACKEND_URL}/api/routes/users/google-login`, {
+                const response = await fetch(API_ENDPOINTS.GOOGLE_LOGIN,  {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
