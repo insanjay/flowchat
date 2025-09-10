@@ -110,7 +110,7 @@
 
         async function loginWithBackend(googleToken) {
             try {
-                const response = await fetch(`${BACKEND_URL}/api/users/google-login`, {
+                const response = await fetch(`${BACKEND_URL}/api/routes/users/google-login`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
