@@ -22,7 +22,7 @@ from app.utils.google_auth import verify_google_token
 # Load environment variables
 load_dotenv()
 
-router = APIRouter(prefix="/api/users", tags=["users"])
+router = APIRouter(tags=["users"])
 
 # JWT Configuration - move these to environment variables
 SECRET_KEY = os.getenv("JWT_SECRET_KEY", "your-secret-key-change-this")
